@@ -27,9 +27,9 @@ export default function Footer() {
           <div>
             <h3 className="font-semibold text-gray-900 mb-4">Hosting</h3>
             <ul className="space-y-3 text-gray-700 font-normal">
-              <li><Link href="/host/dashboard" className="hover:underline">Airbnb your home</Link></li>
-              <li><Link href="#" className="hover:underline">Airbnb your experience</Link></li>
-              <li><Link href="#" className="hover:underline">Airbnb your service</Link></li>
+              <li><Link href="/host/dashboard" className="hover:underline">Staybnb your home</Link></li>
+              <li><Link href="#" className="hover:underline">Staybnb your experience</Link></li>
+              <li><Link href="#" className="hover:underline">Staybnb your service</Link></li>
               <li><Link href="#" className="hover:underline">AirCover for Hosts</Link></li>
               <li><Link href="#" className="hover:underline">Hosting resources</Link></li>
               <li><Link href="#" className="hover:underline">Community forum</Link></li>
@@ -40,15 +40,15 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 3: Airbnb */}
+          {/* Column 3: Staybnb */}
           <div>
-            <h3 className="font-semibold text-gray-900 mb-4">Airbnb</h3>
+            <h3 className="font-semibold text-gray-900 mb-4">Staybnb</h3>
             <ul className="space-y-3 text-gray-700 font-normal">
               <li><Link href="#" className="hover:underline">2026 Summer Release</Link></li>
               <li><Link href="#" className="hover:underline">Newsroom</Link></li>
               <li><Link href="#" className="hover:underline">Careers</Link></li>
               <li><Link href="#" className="hover:underline">Investors</Link></li>
-              <li><Link href="#" className="hover:underline">Airbnb.org emergency stays</Link></li>
+              <li><Link href="#" className="hover:underline">Staybnb.org emergency stays</Link></li>
             </ul>
           </div>
         </div>
@@ -57,7 +57,7 @@ export default function Footer() {
         <div className="border-t border-gray-200 pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-gray-600">
           {/* Copyright & Info */}
           <div className="flex flex-wrap items-center gap-1 sm:gap-2 text-center md:text-left">
-            <span>© 2026 Airbnb, Inc.</span>
+            <span>© 2026 Staybnb, Inc.</span>
             <span>·</span>
             <Link href="#" className="hover:underline">Privacy</Link>
             <span>·</span>

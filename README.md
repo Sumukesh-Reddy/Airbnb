@@ -1,6 +1,6 @@
-# Airbnb Clone – Full-Stack Vacation Rental Marketplace
+# Staybnb – Full-Stack Vacation Rental Marketplace
 
-A full-stack Airbnb clone built with Next.js 16 (React 19, TypeScript, Tailwind CSS), FastAPI (Python 3.12, SQLAlchemy, Pydantic), and SQLite/PostgreSQL. Replicates Airbnb's design system, sectioned carousels, category search, interactive map view, booking pipeline, host dashboard, and review system.
+A full-stack Staybnb vacation-rental marketplace built with Next.js 16 (React 19, TypeScript, Tailwind CSS), FastAPI (Python 3.12, SQLAlchemy, Pydantic), and SQLite/PostgreSQL. Includes a custom design system, sectioned carousels, category search, interactive map view, booking pipeline, host dashboard, and review system.
 
 ---
 
@@ -25,7 +25,7 @@ SQLite Database (airbnb.db / PostgreSQL in Prod)
 ## Key Features
 
 ### 1. Visual & UX Fidelity
-* **Airbnb Design System**: Crafted to match reference screenshots with precise typography, card aspect ratios, badge pills, and sticky widgets.
+* **Staybnb Design System**: Crafted with precise typography, card aspect ratios, badge pills, and sticky widgets.
 * **Top Navigation Bar**: Category switcher tabs (`All`, `Homes`, `Experiences`, `Services`), currency selector, language selector, and user account modal.
 * **Sectioned Listing Carousels**: Dedicated homepage rows for "Popular homes in South Goa" and "Available next month in North Goa" with stacked "See all" card.
 * **Hero Search Bar**: Floating search pill supporting location search, date pickers, guest selectors, and price range filters.

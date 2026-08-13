@@ -418,12 +418,12 @@ function HomeContent() {
         {/* ================= EXPERIENCES TAB (Screenshot 2 & 4 & 5) ================= */}
         {currentTab === 'experiences' && (
           <>
-            {/* Section: Airbnb Originals */}
+            {/* Section: Staybnb Originals */}
             <div>
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2 group cursor-pointer">
                   <h2 className="text-2xl font-bold text-gray-900 tracking-tight">
-                    Airbnb Originals
+                    Staybnb Originals
                   </h2>
                   <ArrowRight className="w-5 h-5 text-gray-900 group-hover:translate-x-1 transition-transform" />
                 </div>

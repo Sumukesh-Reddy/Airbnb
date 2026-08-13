@@ -10,13 +10,13 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const metadata: Metadata = {
   title: {
-    default: 'Airbnb – Vacation rentals, cabins, beach houses & more',
-    template: '%s | Airbnb',
+    default: 'Staybnb – Vacation rentals, cabins, beach houses & more',
+    template: '%s | Staybnb',
   },
   description: 'Find and book unique accommodations across India. Beach houses in Goa, mountain cabins in Manali, heritage havelis in Rajasthan, and more.',
   keywords: ['vacation rentals', 'India travel', 'holiday homes', 'Goa', 'Manali', 'Udaipur'],
   openGraph: {
-    title: 'Airbnb – Vacation rentals across India',
+    title: 'Staybnb – Vacation rentals across India',
     description: 'Find and book unique accommodations across India.',
     type: 'website',
   },
