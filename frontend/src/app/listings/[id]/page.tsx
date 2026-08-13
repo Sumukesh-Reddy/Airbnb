@@ -434,66 +434,111 @@ export default function ListingDetailPage() {
                   )}
                 </div>
 
-                {/* Date Selection */}
-                <div className="border border-gray-200 rounded-xl overflow-hidden mb-3">
-                  <div
-                    onClick={() => setShowDatePicker(!showDatePicker)}
-                    className="grid grid-cols-2 divide-x divide-gray-200 cursor-pointer hover:bg-gray-50 transition-colors"
-                  >
-                    <div className="p-3">
-                      <div className="text-xs font-bold text-gray-700 uppercase tracking-wide">Check-in</div>
-                      <div className="text-sm text-gray-600 mt-0.5">
-                        {checkIn ? formatDate(checkIn) : 'Add date'}
+                {/* Reserve / Dates Card for Experiences & Services (Screenshot 5) */}
+                {listing.property_type === 'experience' || listing.property_type === 'service' ? (
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <span className="text-xl font-bold text-gray-900">{formatPrice(listing.price_per_night)}</span>
+                        <span className="text-xs text-gray-500"> / {listing.pricing_type || 'guest'}</span>
+                        <p className="text-xs font-semibold text-rose-600 mt-0.5">Free cancellation</p>
+                      </div>
+                      <button
+                        onClick={handleReserve}
+                        className="bg-rose-500 hover:bg-rose-600 text-white rounded-xl px-5 py-2.5 text-sm font-bold transition-all"
+                      >
+                        Show dates
+                      </button>
+                    </div>
+
+                    <div className="space-y-2.5 pt-2">
+                      {[
+                        { day: 'Today, 14 August', time: '8:30 – 10:00 am', spots: '6 spots available' },
+                        { day: 'Tuesday, 18 August', time: '8:30 – 10:00 am', spots: '9 spots available' },
+                        { day: 'Wednesday, 19 August', time: '9:30 – 11:00 am', spots: '12 spots available' },
+                        { day: 'Thursday, 20 August', time: '8:30 – 10:00 am', spots: '12 spots available' },
+                        { day: 'Friday, 21 August', time: '8:30 – 10:00 am', spots: '12 spots available' },
+                      ].map((slot, idx) => (
+                        <div
+                          key={idx}
+                          onClick={handleReserve}
+                          className="border border-gray-200 hover:border-gray-900 rounded-xl p-3.5 flex items-center justify-between cursor-pointer transition-all hover:bg-gray-50/50"
+                        >
+                          <div>
+                            <p className="font-bold text-sm text-gray-900">{slot.day}</p>
+                            <p className="text-xs text-gray-500">{slot.time}</p>
+                          </div>
+                          <span className="text-xs font-bold text-gray-700 bg-gray-100 px-2.5 py-1 rounded-md">
+                            {slot.spots}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <div className="border border-gray-200 rounded-xl overflow-hidden mb-3">
+                      {/* Check-in / Check-out Inputs */}
+                      <div
+                        onClick={() => setShowDatePicker(!showDatePicker)}
+                        className="grid grid-cols-2 divide-x divide-gray-200 cursor-pointer hover:bg-gray-50 transition-colors"
+                      >
+                        <div className="p-3">
+                          <div className="text-xs font-bold text-gray-700 uppercase tracking-wide">Check-in</div>
+                          <div className="text-sm text-gray-600 mt-0.5">
+                            {checkIn ? formatDate(checkIn) : 'Add date'}
+                          </div>
+                        </div>
+                        <div className="p-3">
+                          <div className="text-xs font-bold text-gray-700 uppercase tracking-wide">Checkout</div>
+                          <div className="text-sm text-gray-600 mt-0.5">
+                            {checkOut ? formatDate(checkOut) : 'Add date'}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Guest Input */}
+                      <div className="border-t border-gray-200 p-3">
+                        <div className="text-xs font-bold text-gray-700 uppercase tracking-wide mb-1">Guests</div>
+                        <GuestSelector
+                          value={guests}
+                          onChange={setGuests}
+                          maxGuests={listing.max_guests}
+                          compact
+                        />
                       </div>
                     </div>
-                    <div className="p-3">
-                      <div className="text-xs font-bold text-gray-700 uppercase tracking-wide">Checkout</div>
-                      <div className="text-sm text-gray-600 mt-0.5">
-                        {checkOut ? formatDate(checkOut) : 'Add date'}
+
+                    {/* Inline date picker */}
+                    {showDatePicker && (
+                      <div className="mb-3">
+                        <DateRangePicker
+                          checkIn={checkIn}
+                          checkOut={checkOut}
+                          onSelect={(ci, co) => {
+                            setCheckIn(ci);
+                            setCheckOut(co);
+                            if (ci && co) setShowDatePicker(false);
+                          }}
+                          bookedDates={availability?.booked_dates || []}
+                          onClose={() => setShowDatePicker(false)}
+                          compact
+                        />
                       </div>
-                    </div>
-                  </div>
+                    )}
 
-                  {/* Guest Input */}
-                  <div className="border-t border-gray-200 p-3">
-                    <div className="text-xs font-bold text-gray-700 uppercase tracking-wide mb-1">Guests</div>
-                    <GuestSelector
-                      value={guests}
-                      onChange={setGuests}
-                      maxGuests={listing.max_guests}
-                      compact
-                    />
-                  </div>
-                </div>
+                    {/* Reserve Button */}
+                    <button
+                      onClick={handleReserve}
+                      className="w-full bg-rose-500 hover:bg-rose-600 text-white rounded-xl py-4 font-semibold text-base
+                        transition-all hover:scale-[1.01] active:scale-[0.99]"
+                    >
+                      Reserve
+                    </button>
 
-                {/* Inline date picker */}
-                {showDatePicker && (
-                  <div className="mb-3">
-                    <DateRangePicker
-                      checkIn={checkIn}
-                      checkOut={checkOut}
-                      onSelect={(ci, co) => {
-                        setCheckIn(ci);
-                        setCheckOut(co);
-                        if (ci && co) setShowDatePicker(false);
-                      }}
-                      bookedDates={availability?.booked_dates || []}
-                      onClose={() => setShowDatePicker(false)}
-                      compact
-                    />
-                  </div>
+                    <p className="text-center text-xs text-gray-500 mt-3">You won&apos;t be charged yet</p>
+                  </>
                 )}
-
-                {/* Reserve Button */}
-                <button
-                  onClick={handleReserve}
-                  className="w-full bg-rose-500 hover:bg-rose-600 text-white rounded-xl py-4 font-semibold text-base
-                    transition-all hover:scale-[1.01] active:scale-[0.99]"
-                >
-                  Reserve
-                </button>
-
-                <p className="text-center text-xs text-gray-500 mt-3">You won&apos;t be charged yet</p>
 
                 {/* Price Breakdown */}
                 {pricing && nights > 0 && (

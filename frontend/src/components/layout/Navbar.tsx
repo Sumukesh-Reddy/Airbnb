@@ -72,7 +72,10 @@ export default function Navbar() {
               <div className="hidden md:flex items-center gap-8 text-sm font-medium">
                 {/* All */}
                 <button
-                  onClick={() => setActiveTab('all')}
+                  onClick={() => {
+                    setActiveTab('all');
+                    router.push('/?tab=all');
+                  }}
                   className={`flex items-center gap-2.5 pb-2 transition-all relative ${
                     activeTab === 'all' ? 'text-gray-900 font-semibold' : 'text-gray-500 hover:text-gray-900'
                   }`}
@@ -88,7 +91,10 @@ export default function Navbar() {
 
                 {/* Homes */}
                 <button
-                  onClick={() => setActiveTab('homes')}
+                  onClick={() => {
+                    setActiveTab('homes');
+                    router.push('/?tab=homes');
+                  }}
                   className={`flex items-center gap-2.5 pb-2 transition-all relative ${
                     activeTab === 'homes' ? 'text-gray-900 font-semibold' : 'text-gray-500 hover:text-gray-900'
                   }`}
@@ -104,7 +110,10 @@ export default function Navbar() {
 
                 {/* Experiences */}
                 <button
-                  onClick={() => setActiveTab('experiences')}
+                  onClick={() => {
+                    setActiveTab('experiences');
+                    router.push('/?tab=experiences');
+                  }}
                   className={`flex items-center gap-2.5 pb-2 transition-all relative ${
                     activeTab === 'experiences' ? 'text-gray-900 font-semibold' : 'text-gray-500 hover:text-gray-900'
                   }`}
@@ -120,7 +129,10 @@ export default function Navbar() {
 
                 {/* Services */}
                 <button
-                  onClick={() => setActiveTab('services')}
+                  onClick={() => {
+                    setActiveTab('services');
+                    router.push('/?tab=services');
+                  }}
                   className={`flex items-center gap-2.5 pb-2 transition-all relative ${
                     activeTab === 'services' ? 'text-gray-900 font-semibold' : 'text-gray-500 hover:text-gray-900'
                   }`}

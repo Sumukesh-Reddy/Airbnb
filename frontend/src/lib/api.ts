@@ -10,6 +10,8 @@ import {
 } from '@/types';
 import {
   MOCK_LISTINGS_FULL,
+  MOCK_EXPERIENCES,
+  MOCK_SERVICES,
   getMockReviews,
   getMockAvailability,
   saveMockBooking,
@@ -108,9 +110,20 @@ export async function getListing(id: number): Promise<ListingDetail> {
   try {
     return await fetchAPI<ListingDetail>(`/api/listings/${id}`);
   } catch {
-    const found = MOCK_LISTINGS_FULL.find((item) => item.id === Number(id));
-    if (found) return found;
-    // Fallback to first listing if ID not explicitly mapped
+    const allMock = [...MOCK_LISTINGS_FULL, ...MOCK_EXPERIENCES, ...MOCK_SERVICES];
+    const found = allMock.find((item) => item.id === Number(id));
+    if (found) {
+      return {
+        ...found,
+        description: (found as ListingDetail).description || `Experience the best of ${found.title} with top-rated host ${found.host.name}.`,
+        amenities: (found as ListingDetail).amenities || [
+          { id: 1, name: 'Equipment provided', icon: 'utensils' },
+          { id: 2, name: 'Expert guide', icon: 'award' },
+          { id: 3, name: 'Refreshments', icon: 'coffee' },
+        ],
+        created_at: '2025-01-01T00:00:00Z',
+      };
+    }
     return {
       ...MOCK_LISTINGS_FULL[0],
       id: Number(id) || 101,

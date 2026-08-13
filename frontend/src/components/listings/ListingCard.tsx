@@ -67,11 +67,14 @@ export default function ListingCardComponent({
     onFavoriteToggle?.(listing.id, newState);
   };
 
-  const badgeToDisplay = isGuestFavourite
+  const badgeToDisplay = listing.badge_label
+    ? listing.badge_label
+    : isGuestFavourite
     ? 'Guest favourite'
     : badgeText || getPropertyTypeLabel(listing.property_type);
 
   const totalPrice = formatPrice(listing.price_per_night * nights);
+  const singlePrice = formatPrice(listing.price_per_night);
 
   return (
     <Link href={`/listings/${listing.id}`} className="group block">
@@ -156,30 +159,42 @@ export default function ListingCardComponent({
           />
         </div>
 
-        {/* Property Type or Guest favourite Badge */}
+        {/* Property Type or Badge */}
         {badgeToDisplay && (
           <div className="absolute top-3 left-3 z-10">
             <span className="bg-white/95 backdrop-blur-sm text-gray-900 text-xs font-semibold
-              px-3 py-1 rounded-full shadow-sm border border-gray-100">
-              {badgeToDisplay}
+              px-3 py-1 rounded-full shadow-sm border border-gray-100 flex items-center gap-1">
+              {listing.badge_label === 'Original' && <span>✏️</span>}
+              <span>{badgeToDisplay}</span>
             </span>
           </div>
         )}
       </div>
 
-      {/* Info matching Image 2 */}
+      {/* Info */}
       <div className="mt-2.5 space-y-0.5">
         <h3 className="font-bold text-gray-900 text-sm leading-snug line-clamp-1">
           {listing.title}
         </h3>
 
+        {listing.location && (
+          <p className="text-xs text-gray-500 line-clamp-1">{listing.location}</p>
+        )}
+
         <div className="text-gray-600 text-sm flex items-center gap-1.5">
-          <span>{totalPrice} for {nights} nights</span>
+          {listing.pricing_type === 'guest' ? (
+            <span>From {singlePrice} / guest</span>
+          ) : listing.pricing_type === 'group' ? (
+            <span>From {singlePrice} / group</span>
+          ) : (
+            <span>{totalPrice} for {nights} nights</span>
+          )}
+
           {listing.avg_rating ? (
             <span className="flex items-center gap-0.5 text-gray-900 font-medium">
               <span>·</span>
               <Star className="w-3.5 h-3.5 fill-gray-900 text-gray-900 ml-0.5" />
-              <span>{listing.avg_rating.toFixed(2)}</span>
+              <span>{listing.avg_rating.toFixed(listing.avg_rating % 1 === 0 ? 1 : 2)}</span>
             </span>
           ) : (
             <span className="text-xs text-gray-500 font-medium">· New</span>

@@ -49,6 +49,9 @@ export interface ListingCard {
   images: ListingImage[];
   host: HostInfo;
   is_favorite: boolean;
+  badge_label?: string;
+  item_type?: 'home' | 'experience' | 'service';
+  pricing_type?: 'night' | 'guest' | 'group';
 }
 
 export interface ListingDetail extends ListingCard {
