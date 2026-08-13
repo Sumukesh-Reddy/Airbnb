@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+backend/venv/
+venv/
+
+# Next.js & Build outputs
+frontend/.next/
+frontend/out/
+build/
+dist/
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+*.db
+backend/airbnb.db
+
+# Logs & Env
+*.log
+.env
+.env.local
