@@ -367,13 +367,6 @@ function HomeContent() {
 
   return (
     <div className="min-h-screen bg-white pb-20">
-      {/* Search Header */}
-      <div className="border-b border-gray-100 py-4 px-4 bg-white">
-        <div className="max-w-3xl mx-auto flex justify-center">
-          <SearchBar onSearch={handleSearch} variant="hero" />
-        </div>
-      </div>
-
       {/* Reservation Banner (Screenshot 1 Pill) */}
       {currentTab !== 'experiences' && currentTab !== 'services' && (
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 pt-6">
@@ -544,121 +537,141 @@ function HomeContent() {
           </>
         )}
 
-        {/* ================= HOMES / ALL TAB (Screenshot 1 & 2) ================= */}
-        {currentTab !== 'experiences' && currentTab !== 'services' && (
-          <>
-            {/* Carousel 1: Popular homes in South Goa */}
-            <div>
-              <div className="flex items-center justify-between mb-5">
-                <div className="flex items-center gap-2 group cursor-pointer">
-                  <h2 className="text-xl font-bold text-gray-900 tracking-tight">
-                    Popular homes in South Goa
-                  </h2>
-                  <ArrowRight className="w-5 h-5 text-gray-900 group-hover:translate-x-1 transition-transform" />
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <button onClick={() => scrollCarousel(southGoaRef, 'left')} className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:border-gray-900 transition-all">
-                    <ChevronLeft className="w-4 h-4" />
-                  </button>
-                  <button onClick={() => scrollCarousel(southGoaRef, 'right')} className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:border-gray-900 transition-all">
-                    <ChevronRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-
-              <div ref={southGoaRef} className="flex gap-5 overflow-x-auto scrollbar-none pb-2 pt-1 -mx-2 px-2 scroll-smooth">
-                {SOUTH_GOA_HOMES.map((item) => (
-                  <div key={item.id} className="w-[240px] sm:w-[260px] md:w-[270px] flex-shrink-0">
-                    <ListingCardComponent listing={item as ListingCardType} isGuestFavourite={item.isGuestFavourite} nights={2} onFavoriteToggle={handleFavoriteToggle} />
-                  </div>
-                ))}
-                <div className="w-[240px] sm:w-[260px] md:w-[270px] flex-shrink-0 flex items-center justify-center">
-                  <Link href="/search?location=South%20Goa" className="w-full h-full min-h-[280px] border border-gray-200 rounded-3xl p-6 flex flex-col items-center justify-center gap-4 hover:shadow-lg transition-all bg-white text-center group">
-                    <div className="relative w-20 h-20 flex items-center justify-center">
-                      <div className="absolute w-14 h-14 rounded-xl bg-gray-200 overflow-hidden shadow-md transform -rotate-12 translate-x-[-10px]">
-                        <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=300" alt="stay" className="w-full h-full object-cover" />
-                      </div>
-                      <div className="absolute w-14 h-14 rounded-xl bg-gray-300 overflow-hidden shadow-lg transform rotate-12 translate-x-[10px] z-10">
-                        <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=300" alt="stay" className="w-full h-full object-cover" />
-                      </div>
-                    </div>
-                    <span className="font-bold text-gray-900 text-sm group-hover:underline">See all</span>
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            {/* Carousel 2: Stay near Palolem Beach (Screenshot 1) */}
-            <div>
-              <div className="flex items-center justify-between mb-5">
-                <div className="flex items-center gap-2 group cursor-pointer">
-                  <h2 className="text-xl font-bold text-gray-900 tracking-tight">
-                    Stay near Palolem Beach
-                  </h2>
-                  <ArrowRight className="w-5 h-5 text-gray-900 group-hover:translate-x-1 transition-transform" />
-                </div>
-                <div className="flex items-center gap-2">
-                  <button onClick={() => scrollCarousel(palolemRef, 'left')} className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:border-gray-900 transition-all">
-                    <ChevronLeft className="w-4 h-4" />
-                  </button>
-                  <button onClick={() => scrollCarousel(palolemRef, 'right')} className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:border-gray-900 transition-all">
-                    <ChevronRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-
-              <div ref={palolemRef} className="flex gap-5 overflow-x-auto scrollbar-none pb-2 pt-1 -mx-2 px-2 scroll-smooth">
-                {PALOLEM_HOMES.map((item) => (
-                  <div key={item.id} className="w-[240px] sm:w-[260px] md:w-[270px] flex-shrink-0">
-                    <ListingCardComponent listing={item as ListingCardType} isGuestFavourite={item.isGuestFavourite} nights={2} onFavoriteToggle={handleFavoriteToggle} />
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Carousel 3: Available next month in North Goa */}
-            <div>
-              <div className="flex items-center justify-between mb-5">
-                <div className="flex items-center gap-2 group cursor-pointer">
-                  <h2 className="text-xl font-bold text-gray-900 tracking-tight">
-                    Available next month in North Goa
-                  </h2>
-                  <ArrowRight className="w-5 h-5 text-gray-900 group-hover:translate-x-1 transition-transform" />
-                </div>
-                <div className="flex items-center gap-2">
-                  <button onClick={() => scrollCarousel(northGoaRef, 'left')} className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:border-gray-900 transition-all">
-                    <ChevronLeft className="w-4 h-4" />
-                  </button>
-                  <button onClick={() => scrollCarousel(northGoaRef, 'right')} className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:border-gray-900 transition-all">
-                    <ChevronRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-
-              <div ref={northGoaRef} className="flex gap-5 overflow-x-auto scrollbar-none pb-2 pt-1 -mx-2 px-2 scroll-smooth">
-                {NORTH_GOA_HOMES.map((item) => (
-                  <div key={item.id} className="w-[240px] sm:w-[260px] md:w-[270px] flex-shrink-0">
-                    <ListingCardComponent listing={item as ListingCardType} isGuestFavourite={item.isGuestFavourite} nights={2} onFavoriteToggle={handleFavoriteToggle} />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </>
-        )}
-
         {/* Database / Category Filtered Listings Grid */}
-        {selectedCategory && (
-          <div className="pt-6 border-t border-gray-100">
-            <h3 className="text-lg font-bold text-gray-900 mb-4">
-              All {selectedCategory.replace('_', ' ')} Listings
-            </h3>
+        {selectedCategory ? (
+          <div className="pt-2">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold text-gray-900 capitalize">
+                {selectedCategory.replace('_', ' ')} Properties
+              </h2>
+              <button
+                onClick={() => handleCategoryChange('')}
+                className="text-sm font-semibold text-rose-600 hover:underline"
+              >
+                Clear filter & show all
+              </button>
+            </div>
             {isLoading ? (
               <ListingGridSkeleton count={8} />
-            ) : (
+            ) : listings.length > 0 ? (
               <ListingGrid listings={listings} onFavoriteToggle={handleFavoriteToggle} />
+            ) : (
+              <div className="text-center py-16 bg-gray-50 rounded-3xl border border-gray-100">
+                <p className="text-lg font-bold text-gray-800">No properties found in this category</p>
+                <button
+                  onClick={() => handleCategoryChange('')}
+                  className="mt-4 bg-gray-900 text-white px-6 py-2.5 rounded-xl text-sm font-semibold hover:bg-black transition-all"
+                >
+                  View all stays
+                </button>
+              </div>
             )}
           </div>
+        ) : (
+          <>
+            {/* ================= HOMES / ALL TAB (Screenshot 1 & 2) ================= */}
+            {currentTab !== 'experiences' && currentTab !== 'services' && (
+              <>
+                {/* Carousel 1: Popular homes in South Goa */}
+                <div>
+                  <div className="flex items-center justify-between mb-5">
+                    <div className="flex items-center gap-2 group cursor-pointer">
+                      <h2 className="text-xl font-bold text-gray-900 tracking-tight">
+                        Popular homes in South Goa
+                      </h2>
+                      <ArrowRight className="w-5 h-5 text-gray-900 group-hover:translate-x-1 transition-transform" />
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <button onClick={() => scrollCarousel(southGoaRef, 'left')} className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:border-gray-900 transition-all">
+                        <ChevronLeft className="w-4 h-4" />
+                      </button>
+                      <button onClick={() => scrollCarousel(southGoaRef, 'right')} className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:border-gray-900 transition-all">
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+
+                  <div ref={southGoaRef} className="flex gap-5 overflow-x-auto scrollbar-none pb-2 pt-1 -mx-2 px-2 scroll-smooth">
+                    {SOUTH_GOA_HOMES.map((item) => (
+                      <div key={item.id} className="w-[240px] sm:w-[260px] md:w-[270px] flex-shrink-0">
+                        <ListingCardComponent listing={item as ListingCardType} isGuestFavourite={item.isGuestFavourite} nights={2} onFavoriteToggle={handleFavoriteToggle} />
+                      </div>
+                    ))}
+                    <div className="w-[240px] sm:w-[260px] md:w-[270px] flex-shrink-0 flex items-center justify-center">
+                      <Link href="/search?location=South%20Goa" className="w-full h-full min-h-[280px] border border-gray-200 rounded-3xl p-6 flex flex-col items-center justify-center gap-4 hover:shadow-lg transition-all bg-white text-center group">
+                        <div className="relative w-20 h-20 flex items-center justify-center">
+                          <div className="absolute w-14 h-14 rounded-xl bg-gray-200 overflow-hidden shadow-md transform -rotate-12 translate-x-[-10px]">
+                            <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=300" alt="stay" className="w-full h-full object-cover" />
+                          </div>
+                          <div className="absolute w-14 h-14 rounded-xl bg-gray-300 overflow-hidden shadow-lg transform rotate-12 translate-x-[10px] z-10">
+                            <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=300" alt="stay" className="w-full h-full object-cover" />
+                          </div>
+                        </div>
+                        <span className="font-bold text-gray-900 text-sm group-hover:underline">See all</span>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Carousel 2: Stay near Palolem Beach (Screenshot 1) */}
+                <div>
+                  <div className="flex items-center justify-between mb-5">
+                    <div className="flex items-center gap-2 group cursor-pointer">
+                      <h2 className="text-xl font-bold text-gray-900 tracking-tight">
+                        Stay near Palolem Beach
+                      </h2>
+                      <ArrowRight className="w-5 h-5 text-gray-900 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <button onClick={() => scrollCarousel(palolemRef, 'left')} className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:border-gray-900 transition-all">
+                        <ChevronLeft className="w-4 h-4" />
+                      </button>
+                      <button onClick={() => scrollCarousel(palolemRef, 'right')} className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:border-gray-900 transition-all">
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+
+                  <div ref={palolemRef} className="flex gap-5 overflow-x-auto scrollbar-none pb-2 pt-1 -mx-2 px-2 scroll-smooth">
+                    {PALOLEM_HOMES.map((item) => (
+                      <div key={item.id} className="w-[240px] sm:w-[260px] md:w-[270px] flex-shrink-0">
+                        <ListingCardComponent listing={item as ListingCardType} isGuestFavourite={item.isGuestFavourite} nights={2} onFavoriteToggle={handleFavoriteToggle} />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Carousel 3: Available next month in North Goa */}
+                <div>
+                  <div className="flex items-center justify-between mb-5">
+                    <div className="flex items-center gap-2 group cursor-pointer">
+                      <h2 className="text-xl font-bold text-gray-900 tracking-tight">
+                        Available next month in North Goa
+                      </h2>
+                      <ArrowRight className="w-5 h-5 text-gray-900 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <button onClick={() => scrollCarousel(northGoaRef, 'left')} className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:border-gray-900 transition-all">
+                        <ChevronLeft className="w-4 h-4" />
+                      </button>
+                      <button onClick={() => scrollCarousel(northGoaRef, 'right')} className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:border-gray-900 transition-all">
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+
+                  <div ref={northGoaRef} className="flex gap-5 overflow-x-auto scrollbar-none pb-2 pt-1 -mx-2 px-2 scroll-smooth">
+                    {NORTH_GOA_HOMES.map((item) => (
+                      <div key={item.id} className="w-[240px] sm:w-[260px] md:w-[270px] flex-shrink-0">
+                        <ListingCardComponent listing={item as ListingCardType} isGuestFavourite={item.isGuestFavourite} nights={2} onFavoriteToggle={handleFavoriteToggle} />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
+          </>
         )}
       </div>
 
