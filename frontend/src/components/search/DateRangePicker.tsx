@@ -175,7 +175,7 @@ export default function DateRangePicker({
         </div>
         <div className="flex gap-8">
           {renderMonth(leftMonth)}
-          {renderMonth(rightMonth)}
+          <div className="hidden sm:block">{renderMonth(rightMonth)}</div>
         </div>
       </div>
     );
@@ -196,7 +196,7 @@ export default function DateRangePicker({
 
         <div className="flex gap-12">
           {renderMonth(leftMonth)}
-          {renderMonth(rightMonth)}
+          <div className="hidden sm:block">{renderMonth(rightMonth)}</div>
         </div>
 
         <button

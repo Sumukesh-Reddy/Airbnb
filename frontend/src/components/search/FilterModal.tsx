@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Modal from '@/components/ui/Modal';
 import { ListingFilters } from '@/types';
 import { SlidersHorizontal } from 'lucide-react';
@@ -29,13 +29,31 @@ const PROPERTY_TYPES = [
 export default function FilterModal({ isOpen, onClose, filters, onApply }: FilterModalProps) {
   const [localFilters, setLocalFilters] = useState<ListingFilters>(filters);
 
+  // Re-open the modal with the filters currently active on the page, rather than
+  // retaining a previous draft after the user has searched or cleared filters.
+  useEffect(() => {
+    if (isOpen) setLocalFilters(filters);
+  }, [filters, isOpen]);
+
   const handleReset = () => {
     setLocalFilters({});
   };
 
   const handleApply = () => {
+    if (
+      localFilters.min_price !== undefined &&
+      localFilters.max_price !== undefined &&
+      Number(localFilters.min_price) > Number(localFilters.max_price)
+    ) {
+      return;
+    }
     onApply(localFilters);
   };
+
+  const hasInvalidPriceRange =
+    localFilters.min_price !== undefined &&
+    localFilters.max_price !== undefined &&
+    Number(localFilters.min_price) > Number(localFilters.max_price);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Filters" size="md">
@@ -66,6 +84,9 @@ export default function FilterModal({ isOpen, onClose, filters, onApply }: Filte
               />
             </div>
           </div>
+          {hasInvalidPriceRange && (
+            <p className="mt-2 text-xs font-medium text-rose-600">Minimum price must be less than the maximum price.</p>
+          )}
         </div>
 
         {/* Property Type */}
@@ -139,8 +160,9 @@ export default function FilterModal({ isOpen, onClose, filters, onApply }: Filte
         </button>
         <button
           onClick={handleApply}
+          disabled={hasInvalidPriceRange}
           className="bg-gray-900 text-white px-6 py-3 rounded-xl text-sm font-semibold
-            hover:bg-gray-800 transition-all hover:scale-[1.02]"
+            hover:bg-gray-800 transition-all hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
         >
           Show results
         </button>

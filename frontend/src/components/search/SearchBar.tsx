@@ -208,10 +208,10 @@ export default function SearchBar({
   // Hero variant - large search bar
   return (
     <div ref={containerRef} className="w-full max-w-3xl relative">
-      <div className="bg-white rounded-full border border-gray-200 shadow-xl flex items-center divide-x divide-gray-200">
+      <div className="bg-white rounded-3xl sm:rounded-full border border-gray-200 shadow-xl flex flex-col sm:flex-row sm:items-center divide-y sm:divide-y-0 sm:divide-x divide-gray-200">
         {/* Location */}
         <div
-          className={`flex-1 flex items-center gap-2 px-5 py-3.5 cursor-pointer rounded-l-full transition-colors
+          className={`w-full sm:flex-1 flex items-center gap-2 px-5 py-3.5 cursor-pointer rounded-t-3xl sm:rounded-l-full transition-colors
             ${activePanel === 'location' ? 'bg-gray-50' : 'hover:bg-gray-50'}`}
           onClick={() => setActivePanel('location')}
         >
@@ -226,7 +226,7 @@ export default function SearchBar({
 
         {/* Check In */}
         <div
-          className={`flex items-center gap-2 px-5 py-3.5 cursor-pointer transition-colors
+          className={`w-full sm:w-auto flex items-center gap-2 px-5 py-3.5 cursor-pointer transition-colors
             ${activePanel === 'checkIn' ? 'bg-gray-50' : 'hover:bg-gray-50'}`}
           onClick={() => setActivePanel('checkIn')}
         >
@@ -241,7 +241,7 @@ export default function SearchBar({
 
         {/* Check Out */}
         <div
-          className={`flex items-center gap-2 px-5 py-3.5 cursor-pointer transition-colors
+          className={`w-full sm:w-auto flex items-center gap-2 px-5 py-3.5 cursor-pointer transition-colors
             ${activePanel === 'checkOut' ? 'bg-gray-50' : 'hover:bg-gray-50'}`}
           onClick={() => setActivePanel('checkOut')}
         >
@@ -255,7 +255,7 @@ export default function SearchBar({
         </div>
 
         {/* Guests + Search Button */}
-        <div className={`flex items-center gap-3 pl-5 pr-2 py-2.5 cursor-pointer rounded-r-full transition-colors
+        <div className={`w-full sm:w-auto flex items-center gap-3 pl-5 pr-2 py-2.5 cursor-pointer rounded-b-3xl sm:rounded-r-full transition-colors
           ${activePanel === 'guests' ? 'bg-gray-50' : 'hover:bg-gray-50'}`}
           onClick={() => setActivePanel('guests')}
         >

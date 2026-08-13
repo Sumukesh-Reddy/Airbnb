@@ -466,10 +466,9 @@ export const MOCK_EXPERIENCES: ListingCard[] = [
     item_type: 'experience',
     host: { id: 10, name: 'Nikolaos', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150', bio: 'Third-generation sculptor', created_at: '2023-01-01T00:00:00Z' },
     images: [
-      { id: 5011, url: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=800', is_primary: true, display_order: 1 },
-      { id: 5012, url: 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=800', is_primary: false, display_order: 2 },
-      { id: 5013, url: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800', is_primary: false, display_order: 3 },
-      { id: 5014, url: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800', is_primary: false, display_order: 4 },
+      { id: 5012, url: 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=800', is_primary: false, display_order: 1 },
+      { id: 5013, url: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800', is_primary: false, display_order: 2 },
+      { id: 5014, url: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800', is_primary: false, display_order: 3 },
     ],
   },
   {
@@ -673,7 +672,7 @@ export const MOCK_SERVICES: ListingCard[] = [
     item_type: 'service',
     host: { id: 21, name: 'Diego', created_at: '2023-02-01T00:00:00Z' },
     images: [
-      { id: 6021, url: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800', is_primary: true, display_order: 1 },
+      { id: 6021, url: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800', is_primary: true, display_order: 1 },
     ],
   },
   {

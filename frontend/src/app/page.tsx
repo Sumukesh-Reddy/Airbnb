@@ -312,7 +312,7 @@ function HomeContent() {
     setIsLoading(true);
     try {
       const response = await getListings({ ...activeFilters, per_page: 20 });
-      if (response && response.items && response.items.length > 0) {
+      if (response?.items) {
         setListings(response.items);
       }
     } catch (error) {
@@ -353,7 +353,8 @@ function HomeContent() {
   };
 
   const handleFiltersApply = (newFilters: ListingFilters) => {
-    setFilters((prev) => ({ ...prev, ...newFilters }));
+    setFilters(newFilters);
+    setSelectedCategory(newFilters.property_type || '');
     setShowFilters(false);
   };
 
@@ -446,7 +447,7 @@ function HomeContent() {
 
               <div ref={expOriginalsRef} className="flex gap-5 overflow-x-auto scrollbar-none pb-2 pt-1 -mx-2 px-2 scroll-smooth">
                 {MOCK_EXPERIENCES.map((exp) => (
-                  <div key={exp.id} className="min-w-[240px] sm:min-w-[260px] md:min-w-[270px] flex-shrink-0">
+                  <div key={exp.id} className="w-[240px] sm:w-[260px] md:w-[270px] flex-shrink-0">
                     <ListingCardComponent listing={exp} nights={1} onFavoriteToggle={handleFavoriteToggle} />
                   </div>
                 ))}
@@ -473,7 +474,7 @@ function HomeContent() {
 
               <div ref={expParisRef} className="flex gap-5 overflow-x-auto scrollbar-none pb-2 pt-1 -mx-2 px-2 scroll-smooth">
                 {MOCK_EXPERIENCES.slice(0, 5).map((exp, i) => (
-                  <div key={exp.id + i} className="min-w-[240px] sm:min-w-[260px] md:min-w-[270px] flex-shrink-0">
+                  <div key={exp.id + i} className="w-[240px] sm:w-[260px] md:w-[270px] flex-shrink-0">
                     <ListingCardComponent listing={{ ...exp, badge_label: 'Trending' }} nights={1} onFavoriteToggle={handleFavoriteToggle} />
                   </div>
                 ))}
@@ -506,7 +507,7 @@ function HomeContent() {
 
               <div ref={servicesLARef} className="flex gap-5 overflow-x-auto scrollbar-none pb-2 pt-1 -mx-2 px-2 scroll-smooth">
                 {MOCK_SERVICES.slice(0, 7).map((srv) => (
-                  <div key={srv.id} className="min-w-[240px] sm:min-w-[260px] md:min-w-[270px] flex-shrink-0">
+                  <div key={srv.id} className="w-[240px] sm:w-[260px] md:w-[270px] flex-shrink-0">
                     <ListingCardComponent listing={srv} nights={1} onFavoriteToggle={handleFavoriteToggle} />
                   </div>
                 ))}
@@ -534,7 +535,7 @@ function HomeContent() {
 
               <div ref={servicesLDNRef} className="flex gap-5 overflow-x-auto scrollbar-none pb-2 pt-1 -mx-2 px-2 scroll-smooth">
                 {MOCK_SERVICES.slice(2, 9).map((srv, i) => (
-                  <div key={srv.id + i} className="min-w-[240px] sm:min-w-[260px] md:min-w-[270px] flex-shrink-0">
+                  <div key={srv.id + i} className="w-[240px] sm:w-[260px] md:w-[270px] flex-shrink-0">
                     <ListingCardComponent listing={srv} nights={1} onFavoriteToggle={handleFavoriteToggle} />
                   </div>
                 ))}
@@ -568,11 +569,11 @@ function HomeContent() {
 
               <div ref={southGoaRef} className="flex gap-5 overflow-x-auto scrollbar-none pb-2 pt-1 -mx-2 px-2 scroll-smooth">
                 {SOUTH_GOA_HOMES.map((item) => (
-                  <div key={item.id} className="min-w-[240px] sm:min-w-[260px] md:min-w-[270px] flex-shrink-0">
+                  <div key={item.id} className="w-[240px] sm:w-[260px] md:w-[270px] flex-shrink-0">
                     <ListingCardComponent listing={item as ListingCardType} isGuestFavourite={item.isGuestFavourite} nights={2} onFavoriteToggle={handleFavoriteToggle} />
                   </div>
                 ))}
-                <div className="min-w-[240px] sm:min-w-[260px] md:min-w-[270px] flex-shrink-0 flex items-center justify-center">
+                <div className="w-[240px] sm:w-[260px] md:w-[270px] flex-shrink-0 flex items-center justify-center">
                   <Link href="/search?location=South%20Goa" className="w-full h-full min-h-[280px] border border-gray-200 rounded-3xl p-6 flex flex-col items-center justify-center gap-4 hover:shadow-lg transition-all bg-white text-center group">
                     <div className="relative w-20 h-20 flex items-center justify-center">
                       <div className="absolute w-14 h-14 rounded-xl bg-gray-200 overflow-hidden shadow-md transform -rotate-12 translate-x-[-10px]">
@@ -609,7 +610,7 @@ function HomeContent() {
 
               <div ref={palolemRef} className="flex gap-5 overflow-x-auto scrollbar-none pb-2 pt-1 -mx-2 px-2 scroll-smooth">
                 {PALOLEM_HOMES.map((item) => (
-                  <div key={item.id} className="min-w-[240px] sm:min-w-[260px] md:min-w-[270px] flex-shrink-0">
+                  <div key={item.id} className="w-[240px] sm:w-[260px] md:w-[270px] flex-shrink-0">
                     <ListingCardComponent listing={item as ListingCardType} isGuestFavourite={item.isGuestFavourite} nights={2} onFavoriteToggle={handleFavoriteToggle} />
                   </div>
                 ))}
@@ -637,7 +638,7 @@ function HomeContent() {
 
               <div ref={northGoaRef} className="flex gap-5 overflow-x-auto scrollbar-none pb-2 pt-1 -mx-2 px-2 scroll-smooth">
                 {NORTH_GOA_HOMES.map((item) => (
-                  <div key={item.id} className="min-w-[240px] sm:min-w-[260px] md:min-w-[270px] flex-shrink-0">
+                  <div key={item.id} className="w-[240px] sm:w-[260px] md:w-[270px] flex-shrink-0">
                     <ListingCardComponent listing={item as ListingCardType} isGuestFavourite={item.isGuestFavourite} nights={2} onFavoriteToggle={handleFavoriteToggle} />
                   </div>
                 ))}

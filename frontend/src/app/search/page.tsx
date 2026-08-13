@@ -73,6 +73,7 @@ function SearchContent() {
     else query.delete('check_out');
     if (params.guests > 1) query.set('guests', String(params.guests));
     else query.delete('guests');
+    setPage(1);
     router.push(`/search?${query.toString()}`);
   };
 
@@ -81,23 +82,28 @@ function SearchContent() {
     const query = new URLSearchParams(searchParams.toString());
     if (cat) query.set('property_type', cat);
     else query.delete('property_type');
+    setPage(1);
     router.push(`/search?${query.toString()}`);
   };
 
   const handleFiltersApply = (filters: ListingFilters) => {
     const query = new URLSearchParams(searchParams.toString());
-    if (filters.min_price) query.set('min_price', String(filters.min_price));
+    if (filters.min_price !== undefined) query.set('min_price', String(filters.min_price));
     else query.delete('min_price');
-    if (filters.max_price) query.set('max_price', String(filters.max_price));
+    if (filters.max_price !== undefined) query.set('max_price', String(filters.max_price));
     else query.delete('max_price');
-    if (filters.min_rating) query.set('min_rating', String(filters.min_rating));
+    if (filters.min_rating !== undefined) query.set('min_rating', String(filters.min_rating));
     else query.delete('min_rating');
-    if (filters.guests) query.set('guests', String(filters.guests));
+    if (filters.guests !== undefined) query.set('guests', String(filters.guests));
     else query.delete('guests');
     if (filters.property_type) {
       query.set('property_type', filters.property_type);
       setSelectedCategory(filters.property_type);
-    } else query.delete('property_type');
+    } else {
+      query.delete('property_type');
+      setSelectedCategory('');
+    }
+    setPage(1);
     router.push(`/search?${query.toString()}`);
     setShowFilters(false);
   };
@@ -108,6 +114,8 @@ function SearchContent() {
 
   const currentFilters: ListingFilters = {
     location: location || undefined,
+    check_in: checkIn || undefined,
+    check_out: checkOut || undefined,
     min_price: minPrice ? Number(minPrice) : undefined,
     max_price: maxPrice ? Number(maxPrice) : undefined,
     min_rating: minRating ? Number(minRating) : undefined,
