@@ -788,7 +788,7 @@ export const MOCK_SERVICES: ListingCard[] = [
     is_favorite: false,
     pricing_type: 'guest',
     item_type: 'service',
-    host: { id: 20, name: 'Ashanta', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150', bio: 'Professional LA Makeup Artist', created_at: '2023-01-01T00:00:00Z' },
+    host: { id: 20, name: 'Ashanta', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150', bio: 'Professional LA Makeup Artist', created_at: '2023-02-01T00:00:00Z' },
     images: [
       { id: 6011, url: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=800', is_primary: true, display_order: 1 },
       { id: 6012, url: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800', is_primary: false, display_order: 2 },
