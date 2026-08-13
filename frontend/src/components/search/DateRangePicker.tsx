@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Calendar } from 'lucide-react';
+import { useState } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import {
   format, startOfMonth, endOfMonth, eachDayOfInterval, startOfWeek, endOfWeek,
   isSameMonth, isSameDay, isAfter, isBefore, addMonths, subMonths, isToday, parseISO
@@ -27,6 +27,8 @@ export default function DateRangePicker({
   const [leftMonth, setLeftMonth] = useState(new Date());
   const [rightMonth, setRightMonth] = useState(addMonths(new Date(), 1));
   const [hoverDate, setHoverDate] = useState<Date | null>(null);
+  const [pickerMode, setPickerMode] = useState<'dates' | 'flexible'>('dates');
+  const [flexDays, setFlexDays] = useState<number>(0);
 
   const startDate = checkIn ? parseISO(checkIn) : null;
   const endDate = checkOut ? parseISO(checkOut) : null;
@@ -63,10 +65,8 @@ export default function DateRangePicker({
     if (isPast(date) || isBooked(date)) return;
 
     if (!startDate || (startDate && endDate)) {
-      // Start new selection
       onSelect(format(date, 'yyyy-MM-dd'), '');
     } else {
-      // Complete the range
       if (isBefore(date, startDate)) {
         onSelect(format(date, 'yyyy-MM-dd'), format(startDate, 'yyyy-MM-dd'));
       } else {
@@ -84,22 +84,23 @@ export default function DateRangePicker({
     const days = eachDayOfInterval({ start: calStart, end: calEnd });
 
     return (
-      <div className="flex-1">
-        <div className="text-center font-semibold text-gray-900 mb-4">
+      <div className="flex-1 min-w-[260px]">
+        {/* Month Name */}
+        <div className="text-center font-bold text-gray-900 text-sm mb-4">
           {format(month, 'MMMM yyyy')}
         </div>
 
-        {/* Day Headers */}
-        <div className="grid grid-cols-7 mb-2">
-          {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map((d) => (
-            <div key={d} className="text-center text-xs text-gray-400 font-medium py-1">
+        {/* Day Column Headers (S M T W T F S) */}
+        <div className="grid grid-cols-7 gap-1 mb-2">
+          {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => (
+            <div key={i} className="text-center text-xs font-semibold text-gray-400 py-1">
               {d}
             </div>
           ))}
         </div>
 
-        {/* Days */}
-        <div className="grid grid-cols-7">
+        {/* Days 7-Column Grid */}
+        <div className="grid grid-cols-7 gap-y-1 gap-x-1">
           {days.map((day, i) => {
             const isCurrentMonth = isSameMonth(day, month);
             const past = isPast(day);
@@ -107,15 +108,13 @@ export default function DateRangePicker({
             const inRange = isInRange(day);
             const rangeStart = isRangeStart(day);
             const rangeEnd = isRangeEnd(day);
-            const today = isToday(day);
             const disabled = past || booked || !isCurrentMonth;
 
             return (
               <div
                 key={i}
-                className={`relative flex items-center justify-center h-9
-                  ${inRange ? 'bg-gray-100' : ''}
-                  ${(rangeStart || rangeEnd) ? 'z-10' : ''}
+                className={`relative flex items-center justify-center h-10 w-10 mx-auto
+                  ${inRange && isCurrentMonth ? 'bg-gray-100' : ''}
                 `}
               >
                 <button
@@ -124,20 +123,16 @@ export default function DateRangePicker({
                   onMouseLeave={() => setHoverDate(null)}
                   disabled={disabled}
                   className={`
-                    w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium
+                    w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold
                     transition-all duration-150
-                    ${!isCurrentMonth ? 'invisible' : ''}
-                    ${disabled && isCurrentMonth ? 'text-gray-300 cursor-not-allowed line-through' : ''}
+                    ${!isCurrentMonth ? 'invisible pointer-events-none' : ''}
+                    ${disabled && isCurrentMonth ? 'text-gray-300 cursor-not-allowed pointer-events-none' : ''}
                     ${rangeStart || rangeEnd
-                      ? 'bg-gray-900 text-white hover:bg-gray-800'
-                      : ''}
-                    ${today && !rangeStart && !rangeEnd
-                      ? 'border-2 border-gray-900 font-bold'
+                      ? 'bg-gray-900 text-white shadow-md'
                       : ''}
                     ${!disabled && !rangeStart && !rangeEnd && isCurrentMonth
-                      ? 'hover:bg-gray-100 text-gray-700'
+                      ? 'hover:bg-gray-100 text-gray-800'
                       : ''}
-                    ${inRange && !rangeStart && !rangeEnd ? 'text-gray-700' : ''}
                   `}
                 >
                   {format(day, 'd')}
@@ -150,87 +145,82 @@ export default function DateRangePicker({
     );
   };
 
-  if (compact) {
-    return (
-      <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-5">
-        <div className="flex items-center justify-between mb-4">
+  return (
+    <div className={`bg-white rounded-3xl shadow-2xl border border-gray-100 ${compact ? 'p-4' : 'p-6 max-w-2xl w-full'}`}>
+      {/* Top Toggle Pill: [ Dates | Flexible ] (Screenshot 2) */}
+      <div className="flex items-center justify-center mb-6">
+        <div className="bg-gray-100 p-1 rounded-full flex items-center gap-1 text-xs font-semibold text-gray-700">
+          <button
+            onClick={() => setPickerMode('dates')}
+            className={`px-6 py-2 rounded-full transition-all ${
+              pickerMode === 'dates' ? 'bg-white shadow-sm text-gray-900 font-bold' : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            Dates
+          </button>
+          <button
+            onClick={() => setPickerMode('flexible')}
+            className={`px-6 py-2 rounded-full transition-all ${
+              pickerMode === 'flexible' ? 'bg-white shadow-sm text-gray-900 font-bold' : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            Flexible
+          </button>
+        </div>
+      </div>
+
+      {/* Dual Month Calendar Display */}
+      <div className="relative">
+        {/* Navigation Arrows */}
+        <div className="absolute top-0 left-0 right-0 flex items-center justify-between pointer-events-none z-10 px-1">
           <button
             onClick={() => {
               setLeftMonth(subMonths(leftMonth, 1));
               setRightMonth(subMonths(rightMonth, 1));
             }}
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+            className="pointer-events-auto p-2 hover:bg-gray-100 rounded-full transition-colors"
           >
-            <ChevronLeft className="w-4 h-4" />
+            <ChevronLeft className="w-4 h-4 text-gray-700" />
           </button>
           <button
             onClick={() => {
               setLeftMonth(addMonths(leftMonth, 1));
               setRightMonth(addMonths(rightMonth, 1));
             }}
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+            className="pointer-events-auto p-2 hover:bg-gray-100 rounded-full transition-colors"
           >
-            <ChevronRight className="w-4 h-4" />
+            <ChevronRight className="w-4 h-4 text-gray-700" />
           </button>
         </div>
-        <div className="flex gap-8">
+
+        <div className="flex flex-col sm:flex-row gap-8 justify-center">
           {renderMonth(leftMonth)}
-          <div className="hidden sm:block">{renderMonth(rightMonth)}</div>
+          {!compact && renderMonth(rightMonth)}
         </div>
       </div>
-    );
-  }
 
-  return (
-    <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6">
-      <div className="flex items-center justify-between mb-6">
-        <button
-          onClick={() => {
-            setLeftMonth(subMonths(leftMonth, 1));
-            setRightMonth(subMonths(rightMonth, 1));
-          }}
-          className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-        >
-          <ChevronLeft className="w-5 h-5 text-gray-700" />
-        </button>
-
-        <div className="flex gap-12">
-          {renderMonth(leftMonth)}
-          <div className="hidden sm:block">{renderMonth(rightMonth)}</div>
-        </div>
-
-        <button
-          onClick={() => {
-            setLeftMonth(addMonths(leftMonth, 1));
-            setRightMonth(addMonths(rightMonth, 1));
-          }}
-          className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-        >
-          <ChevronRight className="w-5 h-5 text-gray-700" />
-        </button>
-      </div>
-
-      <div className="flex justify-end gap-3 pt-4 border-t border-gray-100">
-        {(checkIn || checkOut) && (
+      {/* Bottom Flexible Range Pills (Screenshot 2) */}
+      <div className="flex flex-wrap items-center justify-center gap-2 pt-6 border-t border-gray-100 mt-6">
+        {[
+          { label: 'Exact dates', val: 0 },
+          { label: '± 1 day', val: 1 },
+          { label: '± 2 days', val: 2 },
+          { label: '± 3 days', val: 3 },
+          { label: '± 7 days', val: 7 },
+          { label: '± 14 days', val: 14 },
+        ].map((flexOption) => (
           <button
-            onClick={() => {
-              onSelect('', '');
-            }}
-            className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 
-              underline transition-colors"
+            key={flexOption.label}
+            onClick={() => setFlexDays(flexOption.val)}
+            className={`px-4 py-2 rounded-full text-xs font-semibold transition-all ${
+              flexDays === flexOption.val
+                ? 'border-2 border-gray-900 bg-white text-gray-900 shadow-sm'
+                : 'border border-gray-200 text-gray-700 hover:border-gray-400 bg-white'
+            }`}
           >
-            Clear dates
+            {flexOption.label}
           </button>
-        )}
-        {checkIn && checkOut && (
-          <button
-            onClick={onClose}
-            className="px-6 py-2 bg-gray-900 text-white text-sm font-medium rounded-xl
-              hover:bg-gray-800 transition-colors"
-          >
-            Apply
-          </button>
-        )}
+        ))}
       </div>
     </div>
   );

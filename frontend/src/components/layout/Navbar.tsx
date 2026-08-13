@@ -265,10 +265,10 @@ function NavbarContent() {
 
           {/* Sub Header Row: Big Expanded Hero Search Bar when unscrolled (Image 2) */}
           <div
-            className={`overflow-hidden transition-all duration-300 ease-in-out ${
+            className={`transition-all duration-300 ease-in-out ${
               isHome && !isScrolled
-                ? 'max-h-24 opacity-100 py-3 border-t border-gray-100'
-                : 'max-h-0 opacity-0 py-0 border-none pointer-events-none'
+                ? 'opacity-100 py-3 border-t border-gray-100 relative z-30'
+                : 'max-h-0 opacity-0 py-0 border-none pointer-events-none hidden'
             }`}
           >
             <div className="max-w-4xl mx-auto flex justify-center">
