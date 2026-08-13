@@ -20,6 +20,7 @@ interface SearchBarProps {
     guests: number;
   }) => void;
   variant?: 'hero' | 'navbar';
+  tab?: string;
 }
 
 export default function SearchBar({
@@ -29,6 +30,7 @@ export default function SearchBar({
   initialGuests = 1,
   onSearch,
   variant = 'hero',
+  tab = 'homes',
 }: SearchBarProps) {
   const router = useRouter();
   const [activePanel, setActivePanel] = useState<'location' | 'checkIn' | 'checkOut' | 'guests' | null>(null);
@@ -78,28 +80,40 @@ export default function SearchBar({
   const totalGuests = guests.adults + guests.children;
 
   if (variant === 'navbar') {
+    const isService = tab === 'services';
+    const isExp = tab === 'experiences';
+
     return (
       <div ref={containerRef} className="relative">
         <button
           onClick={() => setActivePanel(activePanel ? null : 'location')}
-          className="flex items-center gap-2 border border-gray-200 rounded-full px-4 py-2 shadow-sm 
+          className="flex items-center gap-2.5 border border-gray-300 rounded-full px-4 py-2 shadow-sm 
             hover:shadow-md transition-all duration-200 bg-white"
         >
-          <span className="text-sm font-medium text-gray-700 max-w-24 truncate">
+          {isService && <span className="text-base leading-none">🛎️</span>}
+          {isExp && <span className="text-base leading-none">🎈</span>}
+
+          <span className="text-sm font-semibold text-gray-800 max-w-24 truncate">
             {location || 'Anywhere'}
           </span>
           <span className="h-4 w-px bg-gray-300" />
           <span className="text-sm font-medium text-gray-700">
             {checkIn && checkOut
               ? `${formatDisplayDate(checkIn)} – ${formatDisplayDate(checkOut)}`
-              : 'Any week'}
+              : 'Anytime'}
           </span>
           <span className="h-4 w-px bg-gray-300" />
           <span className="text-sm text-gray-500">
-            {totalGuests > 1 ? `${totalGuests} guests` : 'Add guests'}
+            {isService
+              ? 'Add service'
+              : isExp
+              ? 'Add experience'
+              : totalGuests > 1
+              ? `${totalGuests} guests`
+              : 'Add guests'}
           </span>
-          <span className="bg-rose-500 rounded-full p-1.5 ml-1">
-            <Search className="w-3 h-3 text-white" />
+          <span className="bg-rose-500 rounded-full p-1.5 ml-1 flex items-center justify-center">
+            <Search className="w-3.5 h-3.5 text-white" />
           </span>
         </button>
 

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Menu, Globe, Search, Home, Heart, BookOpen, LayoutDashboard, LogOut, User, Moon, Sun } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import SearchBar from '@/components/search/SearchBar';
 import AuthModal from './AuthModal';
 import { toast } from '@/components/ui/Toast';
 import { getInitials } from '@/lib/utils';
@@ -147,14 +148,7 @@ export default function Navbar() {
                 </button>
               </div>
             ) : (
-              <button
-                onClick={() => router.push('/')}
-                className="hidden md:flex items-center gap-3 border border-gray-200 rounded-full px-4 py-2.5 
-                  shadow-sm hover:shadow-md transition-all duration-200 group"
-              >
-                <Search className="w-4 h-4 text-gray-500 group-hover:text-gray-700 transition-colors" />
-                <span className="text-sm font-medium text-gray-700">Search destinations...</span>
-              </button>
+              <SearchBar variant="navbar" tab={activeTab} />
             )}
 
             {/* Right Nav */}
