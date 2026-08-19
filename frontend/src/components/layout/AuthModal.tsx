@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { login as apiLogin, register as apiRegister } from '@/lib/api';
 import { toast } from '@/components/ui/Toast';
 import Modal from '@/components/ui/Modal';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
@@ -55,8 +54,8 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }: Au
       await login(email, 'password123');
       toast(`Logged in as demo ${type}!`, 'success');
       onClose();
-    } catch {
-      setError('Demo login failed');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Demo login failed');
     } finally {
       setIsLoading(false);
     }

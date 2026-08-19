@@ -17,9 +17,25 @@ from app.models.models import (
 )
 from app.utils.auth import get_password_hash
 
+DEMO_PASSWORD = "password123"
+DEMO_ACCOUNTS = (
+    "guest@example.com",
+    "priya.sharma@example.com",
+)
+
 
 def generate_booking_ref() -> str:
     return "HMB" + "".join(random.choices(string.ascii_uppercase + string.digits, k=7))
+
+
+def refresh_demo_credentials(db) -> None:
+    """Keep the frontend's public demo accounts usable on an existing database."""
+    for email in DEMO_ACCOUNTS:
+        user = db.query(User).filter(User.email == email).first()
+        if user:
+            user.hashed_password = get_password_hash(DEMO_PASSWORD)
+
+    db.commit()
 
 
 def seed_database():
@@ -30,6 +46,7 @@ def seed_database():
 
     # Check if already seeded
     if db.query(User).count() > 0:
+        refresh_demo_credentials(db)
         print("Database already seeded. Skipping...")
         db.close()
         return
@@ -111,7 +128,7 @@ def seed_database():
         user = User(
             email=h["email"],
             name=h["name"],
-            hashed_password=get_password_hash("password123"),
+            hashed_password=get_password_hash(DEMO_PASSWORD),
             avatar=h["avatar"],
             is_host=h["is_host"],
             bio=h["bio"],
@@ -139,7 +156,7 @@ def seed_database():
         user = User(
             email=g["email"],
             name=g["name"],
-            hashed_password=get_password_hash("password123"),
+            hashed_password=get_password_hash(DEMO_PASSWORD),
             avatar=g.get("avatar"),
             is_host=g.get("is_host", False),
         )
