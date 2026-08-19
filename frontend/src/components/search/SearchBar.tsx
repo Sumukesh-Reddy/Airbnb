@@ -8,6 +8,17 @@ import LocationSelector from './LocationSelector';
 import DateRangePicker from './DateRangePicker';
 import GuestSelector from './GuestSelector';
 
+const POPULAR_DESTINATIONS = [
+  { city: 'Goa', emoji: '🏖️' },
+  { city: 'Manali', emoji: '🏔️' },
+  { city: 'Udaipur', emoji: '🏰' },
+  { city: 'Mumbai', emoji: '🌆' },
+  { city: 'Coorg', emoji: '☕' },
+  { city: 'Jaipur', emoji: '🕌' },
+  { city: 'Alleppey', emoji: '🛶' },
+  { city: 'Rishikesh', emoji: '🧘' },
+];
+
 interface SearchBarProps {
   initialLocation?: string;
   initialCheckIn?: string;
@@ -132,7 +143,7 @@ export default function SearchBar({
               <div className="text-xs font-bold text-gray-800 mb-0.5">Where</div>
               <LocationSelector
                 value={location}
-                onChange={(val) => { setLocation(val); if (val) setActivePanel('checkIn'); }}
+                onChange={setLocation}
               />
             </div>
 
@@ -205,9 +216,15 @@ export default function SearchBar({
         >
           <div className="min-w-0">
             <div className="text-xs font-bold text-gray-800 tracking-tight mb-0.5">Where</div>
-            <div className={`text-sm truncate ${location ? 'text-gray-900 font-medium' : 'text-gray-400'}`}>
-              {location || 'Search destinations'}
-            </div>
+            <input
+              type="text"
+              value={location}
+              onChange={(event) => setLocation(event.target.value)}
+              onFocus={() => setActivePanel('location')}
+              placeholder="Search destinations"
+              aria-label="Search destinations"
+              className="w-full bg-transparent text-sm font-medium text-gray-900 placeholder:text-gray-400 focus:outline-none"
+            />
           </div>
         </div>
 
@@ -254,16 +271,9 @@ export default function SearchBar({
             <div className="px-3 py-2 text-xs font-bold text-gray-500 uppercase tracking-wider">
               Popular Destinations
             </div>
-            {[
-              { city: 'Goa', emoji: '🏖️' },
-              { city: 'Manali', emoji: '🏔️' },
-              { city: 'Udaipur', emoji: '🏰' },
-              { city: 'Mumbai', emoji: '🌆' },
-              { city: 'Coorg', emoji: '☕' },
-              { city: 'Jaipur', emoji: '🕌' },
-              { city: 'Alleppey', emoji: '🛶' },
-              { city: 'Rishikesh', emoji: '🧘' },
-            ].map((loc) => (
+            {POPULAR_DESTINATIONS.filter((loc) =>
+              loc.city.toLowerCase().includes(location.toLowerCase())
+            ).map((loc) => (
               <button
                 key={loc.city}
                 onClick={() => { setLocation(loc.city); setActivePanel('checkIn'); }}
@@ -278,6 +288,11 @@ export default function SearchBar({
                 </div>
               </button>
             ))}
+            {POPULAR_DESTINATIONS.every((loc) =>
+              !loc.city.toLowerCase().includes(location.toLowerCase())
+            ) && (
+              <div className="px-3 py-4 text-sm text-gray-500 text-center">Use “{location}” as your destination</div>
+            )}
           </div>
         </div>
       )}

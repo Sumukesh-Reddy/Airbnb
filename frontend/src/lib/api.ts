@@ -20,7 +20,10 @@ import {
 } from './mockData';
 import { nightsBetween } from './utils';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+const API_BASE = process.env.NEXT_PUBLIC_API_URL ||
+  (process.env.NODE_ENV === 'production'
+    ? 'https://airbnb-ojom.onrender.com'
+    : 'http://localhost:8000');
 
 function getAuthHeaders(): Record<string, string> {
   if (typeof window === 'undefined') return {};

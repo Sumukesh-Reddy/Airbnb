@@ -218,9 +218,12 @@ The FastAPI backend will run at `http://localhost:8000`. API docs available at `
 1. Import the `frontend` folder into Vercel.
 2. Set Environment Variable:
    ```env
-   NEXT_PUBLIC_API_URL=https://your-backend-api.onrender.com
+   NEXT_PUBLIC_API_URL=https://airbnb-ojom.onrender.com
    ```
-3. Deploy!
+   This must be an HTTPS URL in production. The frontend uses this same URL as
+   its production fallback, but setting it explicitly keeps deployments tied to
+   the intended backend.
+3. Redeploy after changing the environment variable.
 
 ### Backend Deployment (Render / Railway)
 1. Push `backend` folder to GitHub.
